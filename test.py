@@ -1,8 +1,8 @@
 import nltk
-from nltk.corpus import treebank
-sentence = "Turn on the light whenever press the button."
+from nltk.stem import WordNetLemmatizer
+sentence = "Turn on the lights whenever pressed the buttons."
 
-#nltk.download('treebank')
+nltk.download('wordnet')
 
 # Divide tokens by word
 tokens = nltk.word_tokenize(sentence)
@@ -17,17 +17,7 @@ print(tagged)
 entities = nltk.ne_chunk(tagged)
 print(entities)
 
-groucho_grammar = nltk.CFG.fromstring("""
-    S -> NP VP
-    PP -> P NP
-    NP -> Det N | Det N PP | 'I'
-    VP -> V NP | VP PP
-    Det -> 'an' | 'my'
-    N -> 'elephant' | 'pajamas'
-    V -> 'shot'
-    P -> 'in'
-    """)
-
-parser = nltk.ChartParser(groucho_grammar)
-for tree in parser.parse(tagged):
-    print(tree)
+# Lemmatizing
+lm = WordNetLemmatizer()
+print([lm.lemmatize(w) for w in tokens])
+print([lm.lemmatize(w, pos='v') for w in tokens]) # specified POS
